@@ -1,0 +1,72 @@
+body {
+	margin: auto;
+	position: relative;
+	background-color: white;
+}
+
+#customer {
+	width: 100%;
+	background-color: black;
+	display: flex;
+	height: 40px;
+}
+
+#customer h3{
+	margin-left: 15px;
+	font-size: 15px;
+	color: white;
+}
+
+#logout{
+	margin: 10px;
+}
+
+h4{
+	color: #36454f;
+}
+
+article{
+	width: 85%;
+	margin: 5%;
+}
+
+table 
+{
+    border-collapse: collapse;
+	width: 100%;
+	border: 1px solid black;
+}
+
+table, th, td 
+{
+	text-align: center;
+}
+
+th, td
+{
+	padding: 5px;
+}
+
+th{
+	font-size: 18px;
+}
+
+table tr:first-child{
+	background-color: #dbdbdb;
+	padding: 5px;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+tr:nth-child(odd) {background-color: white;}
+
+#erreur{
+    color: red;
+}
+
+#orders h3{
+	border-bottom: 1px solid #dbdbdb;
+}
+
+/*INSERT INTO APP.PURCHASE_ORDER (ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SHIPPING_COST, SALES_DATE, SHIPPING_DATE, FREIGHT_COMPANY) VALUES (10000000, 1, 980005, 2, 0, '2017-12-01', '2017-12-01', 'Poney Express');
+*/
