@@ -31,10 +31,12 @@ public class DAO {
         /**
          * Methode permettant de valider ou non les informations de connexion
          * transmises par le formulaire de login
-         * @param email
+         * checkUser recupère l'EMAIL et le CUSTOMER_ID et donne un username 
+	 * @param email
          * @param pass
          * @return
          * @throws SQLException 
+	 *
          */
         public void checkUser(HttpServletRequest request) throws SQLException{   
             
@@ -81,7 +83,7 @@ public class DAO {
                            
         
         /**
-	 * ID du customer dans la table CUSTOMER
+	 * Recupère l'ID du customer dans la table CUSTOMER
 	 * @param mail
 	 * @return l'id du customer
 	 * @throws SQLException
@@ -182,6 +184,16 @@ public class DAO {
 		}
         }
         
+	/**
+	 * Insert une ligne dans la tanle PURCHASE_ORDER
+	 * @param int num
+         * @param int customer_id
+	 * @param int quantity
+	 * @param int cost
+	 * @param Date sales
+	 * @param Date shipping
+	 * @throws java.sql.SQLException renvoyées par JDBC
+	 **/
         public void insertPurchase(int num, int customer_id, int product_id, int quantity, int cost, Date sales, Date shipping, String company) {
             String sql = "INSERT INTO PURCHASE_ORDER (ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SHIPPING_COST, SALES_DATE, SHIPPING_DATE, FREIGHT_COMPANY) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
@@ -204,7 +216,10 @@ public class DAO {
 
 		}
 	}
-        
+       	/**
+	 * Génère le prochain numero disponible pour une commande en récupérant le numero max de ORDER_NUM dans PURCHASE_ORDER + 1 
+	 * @throws java.sql.SQLException renvoyées par JDBC
+	 **/
         public int maxId() throws SQLException {
 		int result = 0;
 		String sql = "SELECT MAX(ORDER_NUM) FROM PURCHASE_ORDER";
@@ -218,7 +233,12 @@ public class DAO {
 		return result;
 	}
         
-        
+  	/**
+	 * Renvoie la liste de toutes commandes d'un client 
+	 * @param customer
+	 * @throws java.sql.SQLException renvoyées par JDBC
+	 **/      
+	
         public List<PurchaseEntity> allPurchase(int customer) throws SQLException {
 
 		List<PurchaseEntity> result = new LinkedList<>();
@@ -245,8 +265,16 @@ public class DAO {
 		return result;
 	}
         
+  	/**
+	 * Renvoie le chiffre d'affaire en fonction des catégories de produits et dans une période définie.
+	 * @param String cat
+	 * @param String datedebut
+	 * @param String datefin
+	 * @throws java.sql.SQLException renvoyées par JDBC
+	 **/   	
+	
         public double CabyCat(String cat, String datedebut, String datefin)throws SQLException{
-            double result = 0; 
+            double result = 0;
             boolean reponse = false;
             String sql = "SELECT PRODUCT_CODE,SUM(PURCHASE_COST*QUANTITY) as CHIFFRE FROM APP.PURCHASE_ORDER,APP.PRODUCT WHERE APP.PRODUCT.PRODUCT_ID=APP.PURCHASE_ORDER.PRODUCT_ID and PRODUCT_CODE = ? and APP.PURCHASE_ORDER.SALES_DATE > ? and APP.PURCHASE_ORDER.SALES_DATE < ? GROUP BY PRODUCT_CODE" ;
             try (Connection connection = myDataSource.getConnection(); 
@@ -264,6 +292,13 @@ public class DAO {
                 return result;
             }
         
+	/**
+	 * Renvoie le chiffre d'affaire en fonction des zones géographique et dans une période définie.
+	 * @param String state
+	 * @param String datedebut
+	 * @param String datefin
+	 * @throws java.sql.SQLException renvoyées par JDBC
+	 **/   	
         public double CabyState(String state, String datedebut, String datefin)throws SQLException{
             double result = 0; 
             boolean reponse = false;
@@ -282,7 +317,13 @@ public class DAO {
                     }    
                 return result;
             }
-        
+        /**
+	 * Renvoie le chiffre d'affaire en fonction des client et dans une période définie.
+	 * @param int customer
+	 * @param String datedebut
+	 * @param String datefin
+	 * @throws java.sql.SQLException renvoyées par JDBC
+	 **/   	
          public double CabyCli(int customer, String datedebut, String datefin)throws SQLException{
             double result = 0; 
             boolean reponse = false;
